@@ -16,7 +16,7 @@ import Unsafe.Coerce (unsafeCoerce)
 
 foreign import data Response :: Type
 
-instance eventEmitterResponse :: EventEmitter Response where
+instance EventEmitter Response where
     on                  = EventEmitter.defaultOn
     once                = EventEmitter.defaultOnce
     prependListener     = EventEmitter.defaultPrependListener
@@ -30,7 +30,7 @@ instance eventEmitterResponse :: EventEmitter Response where
     setMaxListeners     = EventEmitter.defaultSetMaxListeners
     eventNames          = EventEmitter.defaultEventNames
 
-instance writableResponse :: Writable Response where
+instance Writable Response where
     writableHighWaterMark   = Writable.defaultWritableHighWaterMark
     writableLength          = Writable.defaultWritableLength
     cork                    = Writable.defaultCork

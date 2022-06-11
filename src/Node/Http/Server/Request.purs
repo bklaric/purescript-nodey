@@ -9,7 +9,7 @@ import Node.Stream.Readable as Readable
 
 foreign import data Request :: Type
 
-instance eventEmitterServerResponse :: EventEmitter Request where
+instance EventEmitter Request where
     on                  = EventEmitter.defaultOn
     once                = EventEmitter.defaultOnce
     prependListener     = EventEmitter.defaultPrependListener
@@ -23,7 +23,7 @@ instance eventEmitterServerResponse :: EventEmitter Request where
     setMaxListeners     = EventEmitter.defaultSetMaxListeners
     eventNames          = EventEmitter.defaultEventNames
 
-instance readableRequest :: Readable Request where
+instance Readable Request where
     readableHighWaterMark = Readable.defaultReadableHighWaterMark
     readableLength        = Readable.defaultReadableLength
     isPaused              = Readable.defaultIsPaused
@@ -36,7 +36,7 @@ instance readableRequest :: Readable Request where
     unshift               = Readable.defaultUnshift
     destroy               = Readable.defaultDestroy
 
-instance incomingMessageRequest :: IncomingMessage Request where
+instance IncomingMessage Request where
     httpVersion = IncomingMessage.defaultHttpVersion
     rawHeaders  = IncomingMessage.defaultRawHeaders
     headers     = IncomingMessage.defaultHeaders

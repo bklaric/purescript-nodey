@@ -39,7 +39,7 @@ create requestErrorListener responseErrorListener callback =
 create_ :: (Request -> Response -> Effect Unit) -> Effect HttpServer
 create_ callback = create (const $ pure unit) (const $ pure unit) callback
 
-instance eventEmitterHttpServer :: EventEmitter HttpServer where
+instance EventEmitter HttpServer where
     on                  = EventEmitter.defaultOn
     once                = EventEmitter.defaultOnce
     prependListener     = EventEmitter.defaultPrependListener
@@ -53,5 +53,5 @@ instance eventEmitterHttpServer :: EventEmitter HttpServer where
     setMaxListeners     = EventEmitter.defaultSetMaxListeners
     eventNames          = EventEmitter.defaultEventNames
 
-instance serverHttpServer :: Server HttpServer where
+instance Server HttpServer where
     listen = defaultListen

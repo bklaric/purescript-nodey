@@ -28,26 +28,28 @@ module Node.Stream.Readable
 
 import Prelude
 
-import Foreign (Foreign)
 import Data.Maybe (Maybe)
 import Data.Nullable (Nullable, toMaybe)
 import Effect (Effect)
+import Foreign (Foreign)
 import Node.Encoding (Encoding, toNodeString)
 import Node.Errors (Error)
+import Node.Events.EventEmitter (class EventEmitter)
 import Node.Events.EventEmitter as EE
+import Node.Stream.Writable (class Writable)
 import Node.Stream.Writable as W
 import Undefined (undefined)
 
-class EE.EventEmitter readable <= Readable readable where
+class EventEmitter readable <= Readable readable where
     readableHighWaterMark :: readable -> Effect Int
     readableLength :: readable -> Effect Int
     isPaused :: readable -> Effect Boolean
     pause :: readable -> Effect readable
     read :: Int -> readable -> Effect (Maybe Foreign)
     resume :: readable -> Effect readable
-    pipe :: forall writable. W.Writable writable =>
+    pipe :: forall writable. Writable writable =>
         writable -> Boolean -> readable -> Effect writable
-    unpipe :: forall writable. W.Writable writable =>
+    unpipe :: forall writable. Writable writable =>
         writable -> readable -> Effect Unit
     setEncoding :: Encoding -> readable -> Effect readable
     unshift :: Foreign -> readable -> Effect Unit
@@ -83,15 +85,14 @@ foreign import defaultUnshift :: forall readable. Foreign -> readable -> Effect 
 
 foreign import defaultDestroy :: forall readable. Error -> readable -> Effect readable
 
-pipe_ :: forall readable writable. Readable readable => W.Writable writable =>
+pipe_ :: forall readable writable. Readable readable => Writable writable =>
     writable -> readable -> Effect writable
 pipe_ writable readable = pipe writable true readable
 
 -- Flipping the typechecker off.
 data UndefinedWritable
 
-instance eventEmitterUndefinedWritable ::
-    EE.EventEmitter UndefinedWritable where
+instance EventEmitter UndefinedWritable where
     on = EE.defaultOn
     once = EE.defaultOnce
     prependListener = EE.defaultPrependListener
@@ -105,7 +106,7 @@ instance eventEmitterUndefinedWritable ::
     setMaxListeners = EE.defaultSetMaxListeners
     eventNames = EE.defaultEventNames
 
-instance writableUndefinedWritable :: W.Writable UndefinedWritable where
+instance Writable UndefinedWritable where
     writableHighWaterMark = W.defaultWritableHighWaterMark
     writableLength = W.defaultWritableLength
     cork = W.defaultCork

@@ -15,7 +15,7 @@ data Encoding
     | Binary
     | Hex
 
-instance showEncoding :: Show Encoding where
+instance Show Encoding where
     show ASCII   = "ASCII"
     show UTF8    = "UTF8"
     show UTF16LE = "UTF16LE"
