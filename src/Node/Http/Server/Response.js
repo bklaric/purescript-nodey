@@ -68,21 +68,11 @@ export const setSendDate = function (sendDate) {
     }
 }
 
-export const setHeader = function (headerName) {
-    return function (headerValue) {
+export const setHeaderImpl = function (headerName) {
+    return function (headerValueOrValues) {
         return function (response) {
             return function () {
-                response.setHeader(headerName, headerValue)
-            }
-        }
-    }
-}
-
-export const setHeader_ = function (headerName) {
-    return function (headerValues) {
-        return function (response) {
-            return function () {
-                response.setHeader(headerName, headerValues)
+                response.setHeader(headerName, headerValueOrValues)
             }
         }
     }

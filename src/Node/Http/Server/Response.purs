@@ -1,10 +1,38 @@
-module Node.Http.Server.Response where
+module Node.Http.Server.Response
+  ( Response
+  , addTrailers
+  , close
+  , defaultSetTimeout
+  , error
+  , finish
+  , finished
+  , getHeader
+  , getHeaderNames
+  , getHeaders
+  , getSendDate
+  , getStatusCode
+  , getStatusMessage
+  , hasHeader
+  , headersSent
+  , removeHeader
+  , setHeader
+  , setHeader'
+  , setSendDate
+  , setStatusCode
+  , setStatusMessage
+  , writeContinue
+  , writeHead
+  , writeHead_
+  , writeHead_'
+  , writeHead__
+  )
+  where
 
 import Prelude
 
-import Foreign (Foreign)
 import Data.Nullable (Nullable)
 import Effect (Effect)
+import Foreign (Foreign, unsafeToForeign)
 import Node.Errors (Error)
 import Node.Events.Event (Event(..))
 import Node.Events.EventEmitter (class EventEmitter)
@@ -69,11 +97,14 @@ foreign import getSendDate ::
 foreign import setSendDate ::
     Boolean -> Response -> Effect Unit
 
-foreign import setHeader ::
-    String -> String -> Response -> Effect Unit
+foreign import setHeaderImpl ::
+    String -> Foreign -> Response -> Effect Unit
 
-foreign import setHeader_ ::
-    String -> Array String -> Response -> Effect Unit
+setHeader :: String -> String -> Response -> Effect Unit
+setHeader name value response = setHeaderImpl name (unsafeToForeign value) response
+
+setHeader' :: String -> Array String -> Response -> Effect Unit
+setHeader' name values response = setHeaderImpl name (unsafeToForeign values) response
 
 foreign import defaultSetTimeout ::
     Int -> Effect Unit -> Response -> Effect Response
