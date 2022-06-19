@@ -2,9 +2,11 @@ module Node.Server
     ( CommonListenOptions
     , ListenOptions(..)
     , class Server
-    , listen
+    , close
     , defaultListen
+    , listen
     , listen_
+    , listening
     ) where
 
 import Prelude
